@@ -73,15 +73,18 @@ python3 -m venv .venv
 ## How you run a live agent (recipe 01)
 
 1. Copy `.env.example` to `.env`.
-2. Set `NEBIUS_API_KEY`.
-3. Export the variables.
-4. Run:
+2. Set `NEBIUS_API_KEY` and `TAVILY_API_KEY`.
+3. Run tests, then the live harness:
 
 ```
-python cookbooks/01-first-agent/app.py "Explain Token Factory in one paragraph."
+uv sync --group dev
+uv run pytest -q
+uv run python run_live.py
 ```
 
-If the key is empty, the process prints an error and exits with code 2.
+`run_live.py` writes `artifacts/live-run.md`. That file must not contain keys.
+
+If the key is empty, recipe 01 prints an error and exits with code 2.
 
 ## Lessons learned
 

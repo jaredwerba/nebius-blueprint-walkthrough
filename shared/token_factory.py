@@ -7,6 +7,10 @@ from collections.abc import Iterator
 
 import httpx
 
+from shared.env import load_env
+
+load_env()
+
 DEFAULT_BASE = "https://api.tokenfactory.nebius.com/v1"
 DEFAULT_MODEL = "MiniMaxAI/MiniMax-M3"
 

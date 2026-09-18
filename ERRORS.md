@@ -104,8 +104,11 @@ Fix: The keys from the earlier session are in gitignored files under `/home/jkw/
 
 Live rerun (keys present):
 
-- Recipe 01: Token Factory returned two sentences. The default model did not describe Token Factory as a product. The HTTP call succeeded.
-- Recipe 03: Tavily returned five live hits. Note field: `Live Tavily used`.
+- Recipe 01 ungrounded: the model did not describe Token Factory.
+- Recipe 03 with Tavily + Token Factory: the model cited news URLs and described Token Factory as a production inference platform (evolution of AI Studio, 60+ models, 99.9% SLA in headlines).
+- Recipe 04 graph (plan → Tavily → Token Factory): same grounding, structured answer.
+- Recipe 08 blocked `ignore previous instructions`.
+- Recipe 10 simulation: 2 passed, 0 failed.
 
 ## Open items
 - Replace SQLite in recipe 06 with Postgres when a database is available.

@@ -3,7 +3,15 @@
 from __future__ import annotations
 
 import os
+import sys
 from dataclasses import dataclass
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from shared.env import load_env
+from shared.token_factory import TokenFactoryClient, TokenFactoryError
+
+load_env()
 
 
 @dataclass
@@ -47,15 +55,41 @@ class TavilyClient:
         return hits
 
 
-def grounded_answer(question: str, client: TavilyClient | None = None) -> dict:
+def grounded_answer(
+    question: str,
+    client: TavilyClient | None = None,
+    synthesize: bool = False,
+) -> dict:
     client = client or TavilyClient()
     hits = client.search(question)
-    return {
+    payload = {
         "question": question,
         "sources": [hit.__dict__ for hit in hits],
         "note": "Live Tavily was not used" if not client.api_key else "Live Tavily used",
+        "answer": "",
     }
+    if not synthesize:
+        return payload
+    lines = [f"- {h.title} ({h.url}): {h.snippet}" for h in hits]
+    prompt = (
+        "Answer using only these sources. Cite URLs. If sources are insufficient, say so.\n"
+        f"Question: {question}\nSources:\n" + "\n".join(lines)
+    )
+    try:
+        payload["answer"] = TokenFactoryClient().chat(
+            [
+                {"role": "system", "content": "You ground answers in the provided sources only."},
+                {"role": "user", "content": prompt},
+            ]
+        )
+    except TokenFactoryError as exc:
+        payload["answer"] = f"Synthesis skipped: {exc}"
+    return payload
 
 
 if __name__ == "__main__":
-    print(grounded_answer("What is Nebius Token Factory?"))
+    result = grounded_answer("What is Nebius Token Factory?", synthesize=True)
+    print(result["note"])
+    print(result["answer"])
+    for src in result["sources"]:
+        print(src["url"])
