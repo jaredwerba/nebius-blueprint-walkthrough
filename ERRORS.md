@@ -94,9 +94,19 @@ Result: `ModuleNotFoundError: No module named 'httpx'`.
 
 Fix: Run with `uv run python`. Tests use the uv environment.
 
-## Open items
+## E12 — Keys were on disk, not in Hermes env
 
-- Set `NEBIUS_API_KEY` and rerun recipe 01 against Token Factory.
-- Set `TAVILY_API_KEY` and compare fixture hits with live hits.
+Tried: Look in `/home/jkw/.hermes/.env` for live keys.
+
+Result: `NEBIUS_API_KEY` is commented as a placeholder. Hermes env did not have Tavily.
+
+Fix: The keys from the earlier session are in gitignored files under `/home/jkw/Projects/ai-agents-nv-notebooks/.env`. Copied into this repo's gitignored `.env`. Do not commit that file.
+
+Live rerun (keys present):
+
+- Recipe 01: Token Factory returned two sentences. The default model did not describe Token Factory as a product. The HTTP call succeeded.
+- Recipe 03: Tavily returned five live hits. Note field: `Live Tavily used`.
+
+## Open items
 - Replace SQLite in recipe 06 with Postgres when a database is available.
 - Point recipe 07 at LangSmith when `LANGSMITH_API_KEY` is set.
