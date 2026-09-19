@@ -11,7 +11,7 @@ Sentences are short. Verbs are direct.
 
 ## What I built
 
-I built ten recipe modules plus one shared Token Factory client.
+I built ten recipe modules, one shared Token Factory client, and three compact blueprints.
 
 | ID | Recipe | What the module does |
 | --- | --- | --- |
@@ -30,7 +30,9 @@ Blueprint (outside the recipe sequence):
 
 | ID | Blueprint | What the module does |
 | --- | --- | --- |
-| Sentinel | Regulatory compliance auditor | Matches a regulation change to sample SOPs, classifies a gap, files a stub ticket. |
+| Sentinel | Regulatory compliance auditor | Matches a change to sample regulations and 12 SOPs, classifies a gap with citations, files a stub ticket. |
+| Deep research | Grounded report | Plans sub-questions, searches with Tavily or a fixture, cites URLs. |
+| Cost benchmark | Model comparison | Scores recorded runs on tokens, latency, correctness, and estimated USD. |
 
 Shared code is in `shared/token_factory.py`.
 

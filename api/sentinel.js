@@ -24,6 +24,21 @@ const SOPS = [
     title: "Model deployment",
     text: "Models go to production after peer review. No NIST AI RMF measure or manage mapping.",
   },
+  {
+    id: "sop-006-retention",
+    title: "Data retention",
+    text: "Records stay 7 years. GDPR storage limitation is not mapped.",
+  },
+  {
+    id: "sop-009-encryption",
+    title: "Encryption",
+    text: "TLS 1.2 in transit. PHI at rest encryption is optional. HIPAA.",
+  },
+  {
+    id: "sop-010-dsar",
+    title: "Data subject requests",
+    text: "No GDPR access, rectification, or erasure SLA.",
+  },
 ];
 
 function tokenize(text) {

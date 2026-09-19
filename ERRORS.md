@@ -1,6 +1,6 @@
 # Errors during the Blueprint walkthrough
 
-Record of what you tried, what failed, and how you fixed it.
+Record of what I tried, what failed, and how I fixed it.
 
 ## E01 — Blueprint page has no cloneable recipe tree
 
@@ -112,6 +112,7 @@ Live rerun (keys present):
 
 ## Open items
 
-- Official Sentinel also needs Pinecone, Jira, LangSmith, and 200 SOPs. This repo ships a 5-SOP compact copy. That is the remaining partner-key gap, not a missing Blueprint item.
+- Official Sentinel also needs Pinecone, Jira, LangSmith, and 200 SOPs. This repo now ships 12 SOPs, 3 regulation articles, and citations. Still a compact copy, not the partner stack.
+- Official partner cookbook has one Blueprint (Sentinel). I added compact Deep research and Cost benchmark stand-ins from the public cookbook catalog. I did not clone `token-factory-cookbook`.
 - Replace SQLite in recipe 06 with Postgres when a database is available.
 - Point recipe 07 at LangSmith when `LANGSMITH_API_KEY` is set.
