@@ -1,88 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-mode="nominal">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nebius Blueprint walkthrough</title>
+  <title>NERV // NEBIUS BLUEPRINT CONSOLE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Saira+Extra+Condensed:wght@400;600;700;800&family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/nerv-ui.css" />
   <style>
-    :root { color-scheme: dark; }
-    body {
-      margin: 0; font-family: ui-sans-serif, system-ui, sans-serif;
-      background: #0b0d10; color: #e8eaed; line-height: 1.45;
+    html, body { background: var(--void); color: var(--data-green); }
+    body { font-family: var(--font-sys); font-size: 12px; }
+    .console { max-width: 1100px; margin: 0 auto; padding: 18px 16px 48px; }
+    .mast {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      border-bottom: 1px solid var(--nerv-orange-dim); padding-bottom: 8px; margin-bottom: 14px;
     }
-    main { max-width: 720px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
-    h1 { font-size: 1.6rem; font-weight: 650; letter-spacing: -0.02em; }
-    h2 { font-size: 1.05rem; margin-top: 2rem; }
-    p, li { color: #c5c9d1; }
-    a { color: #8ab4ff; }
-    label { display: block; margin: 1rem 0 0.4rem; font-size: 0.9rem; }
-    textarea {
-      width: 100%; min-height: 5rem; box-sizing: border-box;
-      background: #15181e; color: #e8eaed; border: 1px solid #2a3038;
-      border-radius: 8px; padding: 0.75rem; font: inherit;
+    .mast h1 {
+      font-family: var(--font-title); font-weight: 900; font-size: 28px;
+      color: var(--nerv-orange); transform: scaleX(0.82); transform-origin: left;
+      letter-spacing: 0.04em; line-height: 1;
     }
-    button {
-      margin-top: 0.75rem; background: #e8eaed; color: #0b0d10;
-      border: 0; border-radius: 8px; padding: 0.55rem 1rem;
-      font-weight: 600; cursor: pointer;
+    .jp { font-family: var(--font-mincho); color: var(--steel-dim); font-size: 13px; }
+    .stamp {
+      font-family: var(--font-stamp); letter-spacing: 0.18em; font-weight: 800;
+      color: var(--alert-red); border: 2px solid var(--alert-red);
+      padding: 2px 10px; font-size: 18px; transform: rotate(-6deg);
     }
-    button:disabled { opacity: 0.5; cursor: wait; }
-    pre {
-      white-space: pre-wrap; background: #15181e; border: 1px solid #2a3038;
-      border-radius: 8px; padding: 1rem; font-size: 0.9rem;
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+    .span2 { grid-column: 1 / -1; }
+    textarea, pre {
+      width: 100%; box-sizing: border-box; background: #000;
+      color: var(--data-green); border: 1px solid var(--steel-line);
+      font-family: var(--font-sys); font-size: 11px; padding: 8px;
     }
-    .meta { font-size: 0.85rem; color: #8b919c; }
+    textarea { min-height: 72px; resize: vertical; }
+    pre { min-height: 88px; white-space: pre-wrap; }
+    button.nerv {
+      background: transparent; color: var(--nerv-orange);
+      border: 1px solid var(--nerv-orange); padding: 6px 12px;
+      font-family: var(--font-stamp); letter-spacing: 0.16em; font-size: 16px;
+      cursor: pointer; margin-top: 8px;
+    }
+    button.nerv:disabled { opacity: 0.4; cursor: wait; }
+    button.nerv:hover { background: var(--nerv-orange-fill); }
+    .catalog { columns: 2; column-gap: 18px; padding: 8px 12px 12px; }
+    .catalog li { break-inside: avoid; margin: 4px 0; color: var(--steel); }
+    a { color: var(--wire-cyan); }
+    .meta { color: var(--steel-dim); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
   </style>
 </head>
 <body>
-  <main>
-    <p class="meta">ASD-STE100 walkthrough · Token Factory + Tavily</p>
-    <h1>Nebius Agents Blueprint recipes</h1>
-    <p>
-      This site is the public front for
-      <a href="https://github.com/jaredwerba/nebius-blueprint-walkthrough">the GitHub repo</a>.
-      The code follows the Blueprint sequence from Foundation to Simulation.
-    </p>
-    <p>
-      The form below runs recipe 03 on Vercel: Tavily search, then a Token Factory chat.
-      The browser does not receive the API keys.
-    </p>
-    <label for="q">Question</label>
-    <textarea id="q">What is Nebius Token Factory?</textarea>
-    <button id="go" type="button">Run grounded agent</button>
-    <h2>Result</h2>
-    <pre id="out">Idle.</pre>
-    <h2>Sentinel blueprint</h2>
-    <p>
-      Sentinel is the official case-study application. This page runs a compact
-      copy: match sample SOPs, classify a gap, file a stub ticket. It does not
-      call Jira or Pinecone.
-    </p>
-    <label for="chg">Regulatory change</label>
-    <textarea id="chg">New HIPAA guidance requires encryption of PHI at rest in all regions.</textarea>
-    <button id="sen" type="button">Run Sentinel audit</button>
-    <pre id="senout">Idle.</pre>
-    <h2>Complete set</h2>
-    <p>The Blueprint catalog has ten recipes and one application blueprint. All are in this repo.</p>
-    <ol>
-      <li>Foundation — Token Factory chat</li>
-      <li>Knowledge — local retrieval (Pinecone-shaped)</li>
-      <li>Grounding — Tavily + synthesis</li>
-      <li>Orchestration — plan → tool → answer</li>
-      <li>Thread memory</li>
-      <li>User memory (SQLite)</li>
-      <li>Observability traces</li>
-      <li>Guardrails</li>
-      <li>MCP / Stripe test stub</li>
-      <li>Simulation suite</li>
-    </ol>
-  </main>
+  <div class="scan-line-overlay"></div>
+  <div class="console">
+    <header class="mast">
+      <div>
+        <div class="meta">ASD-STE100 · TOKEN FACTORY + TAVILY · NERV-UI v2</div>
+        <h1>NEBIUS BLUEPRINT OPS</h1>
+        <div class="jp">第三新東京市 — エージェント設計図</div>
+      </div>
+      <div class="stamp">NOMINAL</div>
+    </header>
+
+    <div class="metrics-grid span2" style="margin-bottom:12px">
+      <div class="metric-cell highlight">
+        <div class="m-label">CATALOG</div>
+        <div class="m-value">10+1</div>
+        <div class="m-sub">recipes + sentinel</div>
+      </div>
+      <div class="metric-cell">
+        <div class="m-label">SURFACE</div>
+        <div class="m-value">VERCEL</div>
+        <div class="m-sub">keys stay server-side</div>
+      </div>
+      <div class="metric-cell">
+        <div class="m-label">SOURCE</div>
+        <div class="m-value">GH</div>
+        <div class="m-sub"><a href="https://github.com/jaredwerba/nebius-blueprint-walkthrough">jaredwerba/nebius-blueprint-walkthrough</a></div>
+      </div>
+      <div class="metric-cell">
+        <div class="m-label">SKIN</div>
+        <div class="m-value">NERV</div>
+        <div class="m-sub">TheGreatGildo/nerv-ui</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="panel-header">UNIT-03 GROUNDED AGENT <span class="tag">RECIPE 03</span></div>
+        <div class="panel-body">
+          <p class="meta" style="margin-bottom:8px">Tavily search then Token Factory chat. Browser never sees API keys.</p>
+          <label class="m-label" for="q">QUESTION</label>
+          <textarea id="q">What is Nebius Token Factory?</textarea>
+          <button class="nerv" id="go" type="button">EXECUTE</button>
+          <pre id="out">IDLE.</pre>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">SENTINEL AUDITOR <span class="tag">APPLICATION</span></div>
+        <div class="panel-body">
+          <p class="meta" style="margin-bottom:8px">Compact SOP matcher. No Jira. No Pinecone.</p>
+          <label class="m-label" for="chg">REGULATORY CHANGE</label>
+          <textarea id="chg">New HIPAA guidance requires encryption of PHI at rest in all regions.</textarea>
+          <button class="nerv" id="sen" type="button">AUDIT</button>
+          <pre id="senout">IDLE.</pre>
+        </div>
+      </section>
+
+      <section class="panel span2">
+        <div class="panel-header">COMPLETE SET <span class="tag">BLUEPRINTS/</span></div>
+        <ol class="catalog">
+          <li>Foundation — Token Factory chat</li>
+          <li>Knowledge — local retrieval (Pinecone-shaped)</li>
+          <li>Grounding — Tavily + synthesis</li>
+          <li>Orchestration — plan → tool → answer</li>
+          <li>Thread memory</li>
+          <li>User memory (SQLite)</li>
+          <li>Observability traces</li>
+          <li>Guardrails</li>
+          <li>MCP / Stripe test stub</li>
+          <li>Simulation suite</li>
+          <li>Sentinel — compact SOP auditor</li>
+        </ol>
+      </section>
+    </div>
+  </div>
   <script>
     const out = document.getElementById("out");
     const btn = document.getElementById("go");
     btn.addEventListener("click", async () => {
       btn.disabled = true;
-      out.textContent = "Running…";
+      out.textContent = "RUNNING…";
       try {
         const res = await fetch("/api/chat", {
           method: "POST",
@@ -91,11 +141,11 @@
         });
         const data = await res.json();
         if (!res.ok) {
-          out.textContent = "Error: " + (data.error || res.status);
+          out.textContent = "ERROR: " + (data.error || res.status);
           return;
         }
         const urls = (data.sources || []).map((s) => s.url).join("\n");
-        out.textContent = data.answer + "\n\nSources:\n" + urls;
+        out.textContent = data.answer + "\n\nSOURCES:\n" + urls;
       } catch (err) {
         out.textContent = String(err);
       } finally {
@@ -106,7 +156,7 @@
     const senOut = document.getElementById("senout");
     senBtn.addEventListener("click", async () => {
       senBtn.disabled = true;
-      senOut.textContent = "Running…";
+      senOut.textContent = "RUNNING…";
       try {
         const res = await fetch("/api/sentinel", {
           method: "POST",
