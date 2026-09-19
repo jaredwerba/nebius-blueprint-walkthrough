@@ -1,17 +1,17 @@
 # Nebius Agents Blueprint walkthrough
 
-This repository records work on the Nebius Agents Blueprint recipes.
+This repository is my personal walkthrough of the Nebius Agents Blueprint recipes.
 
 Source of the recipes: https://dev.nebius.com/blueprints
 Official code: https://github.com/nebius/nebius-partner-cookbook
 
-This is not a fork of the official repository. This is a personal implementation of the same sequence.
+This is not a fork of the official repository. I implemented the same sequence myself.
 
-The text below follows ASD-STE100 (Simplified Technical English). Sentences are short. Verbs are direct.
+Sentences are short. Verbs are direct.
 
-## What you built
+## What I built
 
-You built ten recipe modules plus one shared Token Factory client.
+I built ten recipe modules plus one shared Token Factory client.
 
 | ID | Recipe | What the module does |
 | --- | --- | --- |
@@ -34,13 +34,13 @@ Blueprint (outside the recipe sequence):
 
 Shared code is in `shared/token_factory.py`.
 
-## Why you built it
+## Why I built it
 
-You followed the Blueprint sequence from Foundation to Simulation.
+I followed the Blueprint sequence from Foundation to Simulation.
 
 The official page states that agent failures are system problems, not only model problems.
 
-You built the system layers so that you can:
+I built the system layers so that I can:
 
 - Call an open model on Token Factory.
 - Retrieve domain knowledge with source citations.
@@ -52,15 +52,15 @@ You built the system layers so that you can:
 - Call tools (including payments).
 - Test the agent with synthetic cases.
 
-You published the work so that other engineers can run the same sequence.
+I published the work so that other engineers can run the same sequence.
 
 ## What it does
 
 1. Offline tests run with no network and no paid keys.
 2. Live Token Factory inference runs only when `NEBIUS_API_KEY` is set.
-3. Each recipe is a small Python module. You can run it with `python cookbooks/<name>/app.py`.
+3. Each recipe is a small Python module. I run it with `python cookbooks/<name>/app.py`.
 
-## How you run the tests
+## How I run the tests
 
 ```
 cd /path/to/nebius-blueprint-walkthrough
@@ -68,7 +68,7 @@ uv sync --group dev
 uv run pytest -q
 ```
 
-If `uv` is not available, use:
+If `uv` is not available, I use:
 
 ```
 python3 -m venv .venv
@@ -76,7 +76,7 @@ python3 -m venv .venv
 .venv/bin/pytest -q
 ```
 
-## How you run a live agent (recipe 01)
+## How I run a live agent (recipe 01)
 
 1. Copy `.env.example` to `.env`.
 2. Set `NEBIUS_API_KEY` and `TAVILY_API_KEY`.
@@ -98,11 +98,11 @@ If the key is empty, recipe 01 prints an error and exits with code 2.
 
 1. The Blueprint page is a catalog. The runnable recipes live in `nebius/nebius-partner-cookbook`.
 2. Official recipes require Python 3.12, `uv`, FastAPI, Prometheus, and several partner keys. This walkthrough keeps the same ideas with a smaller surface so that tests run on a laptop with Python 3.14.
-3. You cannot complete live partner integrations without keys. You must record that gap. See `ERRORS.md`.
-4. A local vector index is enough to learn retrieval. Pinecone is required only when you need a hosted index.
+3. I cannot complete live partner integrations without keys. I record that gap in `ERRORS.md`.
+4. A local vector index is enough to learn retrieval. Pinecone is required only when I need a hosted index.
 5. Guardrails must run on input and on output. Input filters stop jailbreaks. Output filters stop leaked identifiers.
-6. Simulation tests catch policy failures before you spend inference budget.
-7. Do not commit API keys. The official `.env.example` in the partner cookbook shows a truncated key shape. Do not copy real secrets into git.
+6. Simulation tests catch policy failures before I spend inference budget.
+7. I do not commit API keys. The official `.env.example` in the partner cookbook shows a truncated key shape. I do not copy real secrets into git.
 
 ## Errors
 
@@ -110,4 +110,4 @@ See `ERRORS.md` for the list of failures, the cause, and the fix.
 
 ## License
 
-The original Nebius partner cookbook has its own license. This repository contains original code written for the walkthrough.
+The original Nebius partner cookbook has its own license. This repository contains original code I wrote for the walkthrough.
