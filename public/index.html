@@ -52,7 +52,18 @@
     <button id="go" type="button">Run grounded agent</button>
     <h2>Result</h2>
     <pre id="out">Idle.</pre>
-    <h2>Recipes in the repo</h2>
+    <h2>Sentinel blueprint</h2>
+    <p>
+      Sentinel is the official case-study application. This page runs a compact
+      copy: match sample SOPs, classify a gap, file a stub ticket. It does not
+      call Jira or Pinecone.
+    </p>
+    <label for="chg">Regulatory change</label>
+    <textarea id="chg">New HIPAA guidance requires encryption of PHI at rest in all regions.</textarea>
+    <button id="sen" type="button">Run Sentinel audit</button>
+    <pre id="senout">Idle.</pre>
+    <h2>Complete set</h2>
+    <p>The Blueprint catalog has ten recipes and one application blueprint. All are in this repo.</p>
     <ol>
       <li>Foundation — Token Factory chat</li>
       <li>Knowledge — local retrieval (Pinecone-shaped)</li>
@@ -89,6 +100,25 @@
         out.textContent = String(err);
       } finally {
         btn.disabled = false;
+      }
+    });
+    const senBtn = document.getElementById("sen");
+    const senOut = document.getElementById("senout");
+    senBtn.addEventListener("click", async () => {
+      senBtn.disabled = true;
+      senOut.textContent = "Running…";
+      try {
+        const res = await fetch("/api/sentinel", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ change: document.getElementById("chg").value }),
+        });
+        const data = await res.json();
+        senOut.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        senOut.textContent = String(err);
+      } finally {
+        senBtn.disabled = false;
       }
     });
   </script>

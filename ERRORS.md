@@ -111,5 +111,7 @@ Live rerun (keys present):
 - Recipe 10 simulation: 2 passed, 0 failed.
 
 ## Open items
+
+- Official Sentinel also needs Pinecone, Jira, LangSmith, and 200 SOPs. This repo ships a 5-SOP compact copy. That is the remaining partner-key gap, not a missing Blueprint item.
 - Replace SQLite in recipe 06 with Postgres when a database is available.
 - Point recipe 07 at LangSmith when `LANGSMITH_API_KEY` is set.

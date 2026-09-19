@@ -26,6 +26,12 @@ You built ten recipe modules plus one shared Token Factory client.
 | 09 | Actions | Registers MCP-shaped tools. Includes a Stripe PaymentIntent stub in test mode. |
 | 10 | Simulation | Runs a labeled conversation suite before production. This is a local stand-in for Snowglobe. |
 
+Blueprint (outside the recipe sequence):
+
+| ID | Blueprint | What the module does |
+| --- | --- | --- |
+| Sentinel | Regulatory compliance auditor | Matches a regulation change to sample SOPs, classifies a gap, files a stub ticket. |
+
 Shared code is in `shared/token_factory.py`.
 
 ## Why you built it
