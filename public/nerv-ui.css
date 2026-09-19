@@ -46,7 +46,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { background: var(--void); color: var(--data-green); }
+html { background: var(--void); color: var(--steel); }
 
 body {
   font-family: var(--font-sys);
@@ -57,43 +57,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── CRT EFFECTS ───────────────────────────────────────────── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,var(--scan-opacity)) 2px, rgba(0,0,0,var(--scan-opacity)) 4px);
-  pointer-events: none;
-  z-index: 10000;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse 70% 70% at center, transparent 50%, rgba(0,0,0,0.4) 100%);
-  pointer-events: none;
-  z-index: 9999;
-}
-
-@keyframes phosphor-flicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 1; }
-  93% { opacity: 0.96; }
-  94% { opacity: 1; }
-}
-body { animation: phosphor-flicker 4s ease-in-out infinite; }
-
-.scan-line-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, rgba(80,255,80,0.15) 20%, rgba(80,255,80,0.3) 50%, rgba(80,255,80,0.15) 80%, transparent 100%);
-  pointer-events: none;
-  z-index: 9997;
-  animation: scan-line 4s linear infinite;
-  opacity: 0.5;
-}
+/* ── CRT EFFECTS (disabled: no green overscan / scanline) ── */
+.scan-line-overlay { display: none; }
 
 @keyframes scan-line {
   0% { transform: translateY(-100%); }
