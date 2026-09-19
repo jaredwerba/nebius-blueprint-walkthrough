@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nebius Blueprint walkthrough</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, sans-serif;
+      background: #0b0d10; color: #e8eaed; line-height: 1.45;
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+    h1 { font-size: 1.6rem; font-weight: 650; letter-spacing: -0.02em; }
+    h2 { font-size: 1.05rem; margin-top: 2rem; }
+    p, li { color: #c5c9d1; }
+    a { color: #8ab4ff; }
+    label { display: block; margin: 1rem 0 0.4rem; font-size: 0.9rem; }
+    textarea {
+      width: 100%; min-height: 5rem; box-sizing: border-box;
+      background: #15181e; color: #e8eaed; border: 1px solid #2a3038;
+      border-radius: 8px; padding: 0.75rem; font: inherit;
+    }
+    button {
+      margin-top: 0.75rem; background: #e8eaed; color: #0b0d10;
+      border: 0; border-radius: 8px; padding: 0.55rem 1rem;
+      font-weight: 600; cursor: pointer;
+    }
+    button:disabled { opacity: 0.5; cursor: wait; }
+    pre {
+      white-space: pre-wrap; background: #15181e; border: 1px solid #2a3038;
+      border-radius: 8px; padding: 1rem; font-size: 0.9rem;
+    }
+    .meta { font-size: 0.85rem; color: #8b919c; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="meta">ASD-STE100 walkthrough · Token Factory + Tavily</p>
+    <h1>Nebius Agents Blueprint recipes</h1>
+    <p>
+      This site is the public front for
+      <a href="https://github.com/jaredwerba/nebius-blueprint-walkthrough">the GitHub repo</a>.
+      The code follows the Blueprint sequence from Foundation to Simulation.
+    </p>
+    <p>
+      The form below runs recipe 03 on Vercel: Tavily search, then a Token Factory chat.
+      The browser does not receive the API keys.
+    </p>
+    <label for="q">Question</label>
+    <textarea id="q">What is Nebius Token Factory?</textarea>
+    <button id="go" type="button">Run grounded agent</button>
+    <h2>Result</h2>
+    <pre id="out">Idle.</pre>
+    <h2>Recipes in the repo</h2>
+    <ol>
+      <li>Foundation — Token Factory chat</li>
+      <li>Knowledge — local retrieval (Pinecone-shaped)</li>
+      <li>Grounding — Tavily + synthesis</li>
+      <li>Orchestration — plan → tool → answer</li>
+      <li>Thread memory</li>
+      <li>User memory (SQLite)</li>
+      <li>Observability traces</li>
+      <li>Guardrails</li>
+      <li>MCP / Stripe test stub</li>
+      <li>Simulation suite</li>
+    </ol>
+  </main>
+  <script>
+    const out = document.getElementById("out");
+    const btn = document.getElementById("go");
+    btn.addEventListener("click", async () => {
+      btn.disabled = true;
+      out.textContent = "Running…";
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ question: document.getElementById("q").value }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          out.textContent = "Error: " + (data.error || res.status);
+          return;
+        }
+        const urls = (data.sources || []).map((s) => s.url).join("\n");
+        out.textContent = data.answer + "\n\nSources:\n" + urls;
+      } catch (err) {
+        out.textContent = String(err);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

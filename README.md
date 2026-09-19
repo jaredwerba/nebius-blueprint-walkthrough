@@ -84,6 +84,8 @@ uv run python run_live.py
 
 `run_live.py` writes `artifacts/live-run.md`. That file must not contain keys.
 
+The public site on Vercel runs recipe 03 in the browser form. Keys stay in Vercel project env.
+
 If the key is empty, recipe 01 prints an error and exits with code 2.
 
 ## Lessons learned
